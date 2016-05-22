@@ -322,13 +322,6 @@ public abstract class LeftDrawer extends NestedScrollView {
         SwitchCompat cNightMode;
         SwitchCompat cSplitVersion;
 
-        View bProgressMarkList;
-        View bProgress1;
-        View bProgress2;
-        View bProgress3;
-        View bProgress4;
-        View bProgress5;
-
         View panelCurrentReadingHeader;
         View bCurrentReadingClose;
         TextView bCurrentReadingReference;
@@ -368,40 +361,11 @@ public abstract class LeftDrawer extends NestedScrollView {
             cNightMode = V.get(this, R.id.cNightMode);
             cSplitVersion = V.get(this, R.id.cSplitVersion);
 
-            bProgressMarkList = V.get(this, R.id.bProgressMarkList);
-            bProgress1 = V.get(this, R.id.bProgress1);
-            bProgress2 = V.get(this, R.id.bProgress2);
-            bProgress3 = V.get(this, R.id.bProgress3);
-            bProgress4 = V.get(this, R.id.bProgress4);
-            bProgress5 = V.get(this, R.id.bProgress5);
-
             panelCurrentReadingHeader = V.get(this, R.id.panelCurrentReadingHeader);
             bCurrentReadingClose = V.get(this, R.id.bCurrentReadingClose);
             bCurrentReadingReference = V.get(this, R.id.bCurrentReadingReference);
 
             cNightMode.setChecked(!isInEditMode() && Preferences.getBoolean(Prefkey.is_night_mode, false));
-
-            bProgressMarkList.setOnClickListener(v -> listener.bProgressMarkList_click());
-
-            final View[] views = new View[]{bProgress1, bProgress2, bProgress3, bProgress4, bProgress5};
-            for (int i = 0; i < views.length; i++) {
-                final View b = views[i];
-                final int preset_id = i;
-                b.setOnClickListener(v -> {
-                    listener.bProgress_click(preset_id);
-                    closeDrawer();
-                });
-                b.setOnLongClickListener(v -> {
-                    final ClipData dragData = new ClipData("progress_mark", new String[]{VerseItem.PROGRESS_MARK_DRAG_MIME_TYPE}, new ClipData.Item("" + preset_id));
-                    b.setPressed(false);
-                    final DragShadowBuilder dragShadowBuilder = new DragShadowBuilder(b);
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                    closeDrawer();
-                    v.startDrag(dragData, dragShadowBuilder, null, 0);
-
-                    return true;
-                });
-            }
 
             bMarkers.setOnClickListener(v -> {
                 listener.bMarkers_click();
